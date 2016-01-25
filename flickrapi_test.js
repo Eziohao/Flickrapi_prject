@@ -1,26 +1,40 @@
-var http = require("http");
+var https = require("https");
 
+var xmlbody = "<s:Envelope" +
+"    xmlns:s='http://www.w3.org/2003/05/soap-envelope'" +
+"	xmlns:xsi='http://www.w3.org/1999/XMLSchema-instance'" +
+"	xmlns:xsd='http://www.w3.org/1999/XMLSchema'" +
+">" +
+"   <s:Body>" +
+"       <x:FlickrRequest xmlns:x='urn:flickr'>" +
+"           <api_key>4693590b8f046823e52912ecee62d74d</api_key>" +
+"           <method>flickr.people.getPhotos</method>" +
+"           <user_id>139582518@N06</user_id>" +
+"        </x:FlickrRequest>" +
+"    </s:Body>" +
+"</s:Envelope>";
 
-var Flickr=require("flickrapi"),
- flickrOptions={
- 	api_key:"4693590b8f046823e52912ecee62d74d",
- 	secret:"20c5719e28db29fc"
- }
- Flickr.tokenOnly(flickrOptions,function(err,flickr){
-       flickr.photos.search({
-       	text:"kancolle",
-       	format:"SOAP"
-       },function(err,result){
-       	if(err){
-       		throw new Error(err);
-               }
-        console.log(result);;
-       })
+var postRequest = {
+    host: "api.flickr.com",
+    path: "/services/soap",
+    port: 443,
+    method: "POST",
+    headers: {
+        "Content-Type": "application/soap+xml",
+        "Content-Length": Buffer.byteLength(xmlbody)
+    }
+};
+
+var req = https.request( postRequest, function(res) {
+    var buffer = "";
+    res.setEncoding("utf-8");
+    res.on( "data", function(data) {
+      buffer += data;
+    });
+    res.on("end", function() {
+      console.log(buffer);
+    });
 });
-function onRequest(request,response){
-   response.writeHead(200,{"Content-type":"text-plan"});
-   response.write("Hello")
-  
-   response.end();   
-}
-http.createServer(onRequest).listen(8888);
+
+req.write(xmlbody);
+req.end();
