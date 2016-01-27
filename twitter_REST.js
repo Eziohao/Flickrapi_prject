@@ -1,36 +1,27 @@
 var https = require("https");
+var OAuth=require("OAuth");
+
+var oauth=new OAuth.OAuth(
+      'https://api.twitter.com/oauth/request_token',
+      'https://api.twitter.com/oauth/access_token',
+      'BG3LxcstcnhCGpk45HiVOrwRS',
+      '9n4kDPUFrI1u3SAPIhKLLlAyCDvzVGnOU5h2WAaT5oO4nNh5VZ',
+      '1.0A',
+      null,
+      'HMAC-SHA1');
+oauth.get('https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=Eziohao&count=1',
+    '569920169-mVoel8rqjyhhaEGPeDCXWyGSX6xNbwfRwkLqUdIe',
+    'GiWrbrkG1MttA3zjVvRIUsMq5Z145B6rid3eiRsHlz1Re',
+     function(err,data,res){
+        if(err){
+            console.log(err);
+        }
+         
+        console.log(JSON.parse(data));
+    })
 
 
 
-var postRequest = {
-    host: "api.twitter.com",
-    path: "/1.1/statuses/user_timeline.json?&screen_name=Eziohao&count1",
-    port: 443,
-    method: "GET",
-    headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization":
-              "OAuth"+" "+"oauth_consumer_key=BG3LxcstcnhCGpk45HiVOrwRS,"+
-              "oauth_nonce=f5df031b1450ba8dcdd8b9b597b816d0,"+
-              "oauth_signature=Ox1kre2Mzy6Kspr3lSTMc2IETtg%3D,"+ 
-              "oauth_signature_method=HMAC-SHA1,"+ 
-              "oauth_timestamp=1453843910,"+ 
-              "oauth_token=569920169-mVoel8rqjyhhaEGPeDCXWyGSX6xNbwfRwkLqUdIe,"+ 
-              "oauth_version=1.0"
-      
-    }
-};
-
-var req = https.request( postRequest, function(res) {
-    var buffer = "";
-    res.setEncoding("utf-8");
-    res.on( "data", function(data) {
-      buffer += data;
-    });
-    res.on("end", function() {
-      console.log(buffer);
-    });
-});
 
 
-req.end();
+
