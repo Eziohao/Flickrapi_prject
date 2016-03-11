@@ -1,0 +1,65 @@
+<definitions targetNamespace="http://tempuri.org/services/vendor"
+xmlns:tns="http://tempuri.org/services/vendor" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:apns=:"http://tempuri.org/services/creditCardApprover" xmlns:apns2=:"http://http://tempuri.org/services/wareHouse" xmlns="http://schemas.xmlsoap.org/wsdl/" 
+>
+<message name="itemInfo">
+	<part name="name" type="xsd:string"/>
+	<part name="itmeNumber" type="xsd:string"/>
+	<part name="quntity" type="xsd:string"/>
+</message>
+<message name="itemPrice">
+	<part name="price" type="xsd:string"/>
+	<part name="totalPrice" type="xsd:string"/>
+</message>
+<message name="creditInfo">
+	<part name="name" type="xsd:string"/>
+	<part name="adress" type="xsd:string"/>
+	<part name="crditCardNumber" type="xsd:string"/>
+    <part name="totalPrice" type="xsd:string"/>
+</message>
+
+<message name="approvalMessage">
+	<part name="accept" type="xsd:string"/>
+</message>
+
+<portTypes name="creditApprovalPT">
+	<operation name="Approve">
+		<input message="tns:creditInfo"/>
+		<output message="tns:approvalMessage"/>
+	</operation>
+</portTypes>
+<portTypes name="itemCheckPT">
+	<operation name="check">
+		<input message="tns:itemInfo"/>
+		<output message="tns:itemPrice"/>
+	</operation>
+</portTypes>
+<portTypes>
+	<operation name="shippingItemPT">
+		<operation name="shipping">
+			<input message="tns:itemInfo"/>
+		</operation>
+	</operation>
+</portTypes>
+
+<partnerLinktype name="creditCardApproverPL">
+	<role name="approver">
+		<portType name="apns:creditCardApprovalPT"/>
+	</role>
+</partnerLinktype>
+<partnerLinktype name="creditApproverPL">
+	<role name="approver">
+		<portType name="tns:creditApprovalPT"/>
+	</role>
+</partnerLinktype>
+<partnerLinkType name="shippingItemPL">
+	<role name="shippingItem">
+		<portType name="apns2:shippingItemPT"/>
+	</role>
+</partnerLinkType>
+<partnerLinkType name="itemCheckPT">
+	<role name="itemCheck">
+		<portType name="tns:itemCheckPT"/>
+	</role>
+</partnerLinkType>
+</definitions>
+

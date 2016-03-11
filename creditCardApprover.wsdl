@@ -1,0 +1,21 @@
+<definitions targetNamespace="http://tempuri.org/services/CreditCardApprover"
+xmlns:tns="http://tempuri.org/services/CreditCardApprover" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/">
+<message name="creditInfo">
+	<part name="name" type="xsd:string"/>
+	<part name="adress" type="xsd:string"/>
+	<part name="crditCardNumber" type="xsd:string"/>
+    <part name="totalPrice" type="xsd:string"/>
+</message>
+<message name="approvalMessage">
+	<part name="accept" type="xsd:string"/>
+</message>
+<import namespace="http://tempuri.org/vendor"/ location="http://localhost:8888/services/vendor.wsdl"/>
+<portType name="creditCardApprovalPT">
+	<operation name="customerApproval">
+		<input message="tns:creditInfo"/>
+		<output message="tns:approvalMessage"/>
+	</operation>
+	
+</portType>
+
+</definitions>

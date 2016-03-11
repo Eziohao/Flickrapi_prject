@@ -1,0 +1,4 @@
+<definitions targetNamespace="http://tempuri.org/services/wareHouse"
+xmlns:tns="http://tempuri.org/services/wareHouse" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/">
+</definitions>
+

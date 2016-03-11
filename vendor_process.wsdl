@@ -1,0 +1,23 @@
+<process name="vendorProcess" targetNamespace="http://acme.com/vendorprocessing" xmlns="http://schemas.xmlsoap.org/ws/2003/03/business-process/" xmlns:lns="http://tempuri.org/services/vendor">
+	<partnerLinks>
+		<partnerLink name="creditcard" partnerLinkType="lns:creditCardApproverPL" partnerRole="creditCardApprover" />
+		<partnerLink name="users" partnerLinkType="lns:creditApproverPL" myRole="creditCardApprover"/>
+		<partnerLink name="item" partnerLinkType="lns:itemCheckPL" myRole="vendor"/>
+		<partnerLink name="warehouse" partnerLinkType="lns:shippingItemPL" partnerRole="wareHouse"/>
+	</partnerLinks>
+    <varibles>
+    	<varible name="requestApproval"messageType="lns:creditInfo"/>
+    	<varible name="Approval"messageType="lns:approvalMessage"/>
+    	<varible name="requestItemInfo"messageType="lns:itemInfo"/>
+    	<varible name="sendItemInfo"messageType="lns:itemPrice"/>
+    	<varible name="sendShipping"messageType="lns:itemInfo"/>
+    </varibles>
+    <sequence>
+    	<recive partnerLink="users" portType="lns:creditApprovalPT" operation="Approve" varible="requestApproval" createInstance="yes"></recive>
+    	<invoke partnerLink="creditcard" portType="lns:creditApprovalPT" operation="Approve" inputvarible="requestApproval" outputvarible="Approval"></invoke>
+        <reply partnerLink="users" portType="lns:creditApproval" operation="Approve" varible="Approval"></reply>
+        <recive partnerLink="item" portType="lns:itemCheckPT" operation="check" varible="requestItemInfo"></recive>
+        <reply partnerLink="item" portType="lns:itemCheck" operation="check" varible="sendItemInfo"></reply>
+        <reply partnerLink="warehouse" portType="lns:shippingItemPT" operation="shipping" inputvarible="sendShipping"></invoke>
+    </sequence>
+</process>  
